@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vishal Sharma | iOS Engineer — FinTech & POS</title>
+  <meta name="description"
+    content="Senior iOS & Flutter engineer portfolio. FinTech and POS systems specialist with 2.5+ years building production-grade mobile experiences." />
+  <meta name="theme-color" content="#09090b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────────── */
+    :root {
+      --bg: #09090b;
+      --surface: #111116;
+      --surface-2: #18181f;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-strong: rgba(255, 255, 255, 0.12);
+      --text: #f0f0f5;
+      --text-muted: #8a8a9a;
+      --text-dim: #5a5a6e;
+      --accent: #4f8eff;
+      --accent-2: #38d9a9;
+      --grad-head: linear-gradient(135deg, #f0f0f5 0%, #a8c0ff 55%, #4f8eff 100%);
+      --grad-btn: linear-gradient(135deg, #4f8eff, #38b2ff);
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 8px;
+      --container: 1160px;
+      --nav-h: 68px;
+      --ease: cubic-bezier(.22, .68, 0, 1.2);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* ─── LAYOUT HELPERS ─────────────────────────────────────────────── */
+    .container {
+      width: min(var(--container), 100% - 2.5rem);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.08rem);
+      max-width: 600px;
+      margin-bottom: 2.8rem;
+    }
+
+    .grad-text {
+      background: var(--grad-head);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      background: rgba(9, 9, 11, 0.82);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      width: min(var(--container), 100% - 2.5rem);
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .brand em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      transition: color 0.2s, font-weight 0s;
+      position: relative;
+      padding: 0.25rem 0;
+      font-weight: 500;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      transition: width 0.25s var(--ease), opacity 0.25s;
+      opacity: 0;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+      opacity: 1;
+    }
+
+    /* Active nav link (scroll-driven) */
+    .nav-links a.nav-active {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .nav-links a.nav-active::after {
+      width: 100%;
+      opacity: 1;
+    }
+
+    /* Contact pill – active state */
+    .nav-cta {
+      margin-left: 0.4rem;
+      padding: 0.25rem 0;
+      background: none;
+      color: var(--accent);
+      font-size: 0.87rem;
+      font-weight: 600;
+      border-radius: 0;
+      transition: color 0.2s;
+      white-space: nowrap;
+      line-height: 1;
+      position: relative;
+    }
+
+    .nav-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      transition: width 0.25s var(--ease), opacity 0.25s;
+      opacity: 0;
+    }
+
+    .nav-cta:hover {
+      color: #7ab0ff;
+    }
+
+    .nav-cta:hover::after {
+      width: 100%;
+      opacity: 1;
+    }
+
+    .nav-cta.nav-active {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .nav-cta.nav-active::after {
+      width: 100%;
+      opacity: 1;
+    }
+
+    /* Hamburger (mobile) */
+    .nav-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .nav-menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.22s, opacity 0.22s;
+    }
+
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: var(--nav-h) 0 0 0;
+      background: rgba(9, 9, 11, 0.97);
+      backdrop-filter: blur(20px);
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      font-size: 1.2rem;
+      z-index: 99;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────────────── */
+    .hero {
+      min-height: calc(100svh - var(--nav-h));
+      display: flex;
+      align-items: center;
+      padding: 5rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 40% at 50% -5%, rgba(79, 142, 255, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(79, 142, 255, 0.1);
+      border: 1px solid rgba(79, 142, 255, 0.25);
+      color: #a8c4ff;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #38d9a9;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(56, 217, 169, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 2rem + 5vw, 5.6rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.05em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-role {
+      font-size: clamp(1rem, 0.9rem + 0.8vw, 1.35rem);
+      font-weight: 600;
+      color: #b0b8d0;
+      margin-bottom: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-tagline {
+      max-width: 640px;
+      color: var(--text-muted);
+      font-size: clamp(0.96rem, 0.9rem + 0.3vw, 1.08rem);
+      line-height: 1.7;
+      margin-bottom: 2.4rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      min-height: 48px;
+      padding: 0.72rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: opacity 0.18s, transform 0.18s;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: var(--grad-btn);
+      color: #fff;
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────────────────── */
+    .divider {
+      width: 40px;
+      height: 3px;
+      background: var(--grad-btn);
+      border-radius: 999px;
+      margin-bottom: 2rem;
+    }
+
+    /* ─── ABOUT / IMPACT ─────────────────────────────────────────────── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .impact-list {
+      display: grid;
+      gap: 0.9rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .impact-list li {
+      display: flex;
+      gap: 0.75rem;
+      color: #ccd2e2;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .impact-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 0.55em;
+    }
+
+    .experience-note {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    .metric {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1rem;
+    }
+
+    .metric-value {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .metric-value.accent {
+      color: var(--accent);
+    }
+
+    .metric-value.green {
+      color: var(--accent-2);
+    }
+
+    .metric-label {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ─── APP PREVIEW ────────────────────────────────────────────────── */
+    .preview-layout {
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .preview-copy .chip-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(79, 142, 255, 0.1);
+      border: 1px solid rgba(79, 142, 255, 0.22);
+      color: #a8c4ff;
+      border-radius: 999px;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .preview-copy h3 {
+      font-size: clamp(1.4rem, 1rem + 1.5vw, 1.95rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .preview-block {
+      margin-bottom: 1rem;
+    }
+
+    .preview-block .block-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .preview-block p {
+      color: #bcc6da;
+      font-size: 0.97rem;
+      line-height: 1.6;
+    }
+
+    .preview-list {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .preview-list li {
+      display: flex;
+      gap: 0.65rem;
+      color: #bcc6da;
+      font-size: 0.95rem;
+    }
+
+    .preview-list li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      font-size: 0.85em;
+      margin-top: 0.15em;
+    }
+
+    /* ─── IPHONE MOCKUP ──────────────────────────────────────────────── */
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .iphone {
+      position: relative;
+      width: min(300px, 82vw);
+      aspect-ratio: 9 / 19.5;
+      background: #111118;
+      border: 1.5px solid #2e3347;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 2px 0 #0a0c14,
+        0 4px 0 #212637,
+        0 24px 60px rgba(0, 0, 0, 0.55),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    /* Dynamic island */
+    .iphone::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30%;
+      height: 22px;
+      background: #07080d;
+      border-radius: 999px;
+      border: 1px solid #1e2230;
+      z-index: 5;
+    }
+
+    /* Side buttons */
+    .iphone::after {
+      content: '';
+      position: absolute;
+      top: 26%;
+      right: -2px;
+      width: 3px;
+      height: 18%;
+      background: #1e2230;
+      border-radius: 2px 0 0 2px;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 33px;
+      overflow: hidden;
+      background: #0b0d14;
+      border: 1px solid #1a1e2e;
+      position: relative;
+    }
+
+    .screen-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.65s ease;
+    }
+
+    .screen-slide.active {
+      opacity: 1;
+    }
+
+    .screen-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slide controls */
+    .slide-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 1.2rem;
+    }
+
+    .slide-arrow {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, color 0.18s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .slide-arrow:hover {
+      background: rgba(79, 142, 255, 0.14);
+      border-color: rgba(79, 142, 255, 0.4);
+      color: var(--accent);
+    }
+
+    .slide-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .slide-dots span.active {
+      background: var(--accent);
+      width: 18px;
+      border-radius: 3px;
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: border-color 0.22s, transform 0.22s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(79, 142, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-card h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+    }
+
+    .project-arrow {
+      color: var(--text-dim);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover .project-arrow {
+      color: var(--accent);
+      transform: translate(2px, -2px);
+    }
+
+    .project-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-row-label {
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .project-row-text {
+      font-size: 0.91rem;
+      color: #bcc8df;
+      line-height: 1.5;
+    }
+
+    .project-impact {
+      font-size: 0.91rem;
+      color: var(--accent-2);
+      margin-bottom: 0.9rem;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tech-tags span {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: #b0bcd4;
+      border-radius: var(--radius-sm);
+      padding: 0.28rem 0.6rem;
+      font-size: 0.76rem;
+      font-weight: 500;
+      transition: background 0.18s, border-color 0.18s;
+    }
+
+    .tech-tags span:hover {
+      background: rgba(79, 142, 255, 0.1);
+      border-color: rgba(79, 142, 255, 0.3);
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 1.5px;
+      background: linear-gradient(180deg,
+          var(--accent) 0%,
+          rgba(79, 142, 255, 0.2) 70%,
+          transparent 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 2.8rem 1.2rem;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -1.6rem;
+      top: 7px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 1px rgba(79, 142, 255, 0.4);
+      transform: translateX(-3.5px);
+    }
+
+    .timeline-dot.dim {
+      background: var(--surface-2);
+      border-color: var(--border-strong);
+      box-shadow: none;
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .timeline-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      background: rgba(56, 217, 169, 0.1);
+      border: 1px solid rgba(56, 217, 169, 0.22);
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+    }
+
+    .timeline-role {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-company {
+      font-size: 0.92rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.55rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 640px;
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.3rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.9rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .skill-tags span {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: #c0cbdf;
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: background 0.18s, border-color 0.18s, color 0.18s;
+    }
+
+    .skill-tags span:hover {
+      background: rgba(79, 142, 255, 0.1);
+      border-color: rgba(79, 142, 255, 0.3);
+      color: #c8d8ff;
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────────────────── */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 1.6rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      transition: color 0.18s;
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+    }
+
+    .contact-link-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .contact-form-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-grid .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #9da8bc;
+      letter-spacing: 0.02em;
+    }
+
+    .field input,
+    .field textarea {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-md);
+      padding: 0.72rem 0.9rem;
+      font-size: 0.91rem;
+      width: 100%;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(79, 142, 255, 0.5);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-btn-row {
+      margin-top: 0.8rem;
+    }
+
+    .form-status {
+      font-size: 0.87rem;
+      color: var(--accent-2);
+      margin-top: 0.6rem;
+      min-height: 1.2em;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    .footer-inner {
+      width: min(var(--container), 100% - 2.5rem);
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      transition: color 0.18s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-muted);
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+
+      .impact-grid,
+      .preview-layout,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .phone-wrap {
+        order: -1;
+      }
+
+      .preview-layout .phone-wrap {
+        order: unset;
+      }
+
+      .contact-wrap {
+        gap: 1.5rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .field-full {
+        grid-column: 1;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --nav-h: 62px;
+      }
+
+      .section {
+        padding: 4.5rem 0;
+      }
+
+      .projects-grid,
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-menu-btn {
+        display: flex;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .hero-actions .btn {
+        flex: 1 1 100%;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        width: calc(100% - 1.8rem);
+      }
+
+      .panel {
+        padding: 1.2rem;
+      }
+
+      .contact-form-wrap {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════ NAV ═══════════════════ -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="brand" href="#home">Vishal <em>Sharma</em></a>
+      <ul class="nav-links" id="navLinks" role="menubar">
+        <li><a href="#about" role="menuitem">About</a></li>
+        <li><a href="#preview" role="menuitem">App UI</a></li>
+        <li><a href="#projects" role="menuitem">Projects</a></li>
+        <li><a href="#experience" role="menuitem">Experience</a></li>
+        <li><a href="#skills" role="menuitem">Skills</a></li>
+        <li><a href="#contact" class="nav-cta" role="menuitem">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <header class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-pill">Available for New Opportunities</div>
+      <h1 class="grad-text">Vishal Sharma</h1>
+      <p class="hero-role">iOS Engineer &nbsp;·&nbsp; FinTech &amp; POS Systems</p>
+      <p class="hero-tagline">
+        I build robust, production-grade mobile products with clean architecture, measurable performance gains, and
+        consistent release quality for business-critical workflows.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="Vishal_sharma_IOS_developer.pdf" download="Vishal_Sharma_iOS_Developer_Resume.pdf"
+          class="btn btn-ghost">Download Resume ↓</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════ ABOUT ═══════════════════ -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="label">About &amp; Impact</p>
+        <h2 class="section-title">What I Build</h2>
+        <p class="section-sub">Engineering for business outcomes — stability, speed, and operational clarity across
+          payment and commerce flows.</p>
+
+        <div class="impact-grid">
+          <article class="panel">
+            <h3 class="panel-title">Product Focus</h3>
+            <ul class="impact-list">
+              <li>Merchant-facing iOS and Flutter apps for FinTech and POS ecosystems</li>
+              <li>Production modules for billing, payments, inventory, and CRM workflows</li>
+              <li>Cross-functional delivery with QA and design in Agile product teams</li>
+              <li>Performance-sensitive UI systems on low-end and legacy hardware</li>
+              <li>Modular architecture with reusable components and stable data flows</li>
+            </ul>
+            <p class="experience-note">2.5+ years building and shipping mobile experiences with a product-first mindset
+              and consistent release quality.</p>
+          </article>
+
+          <aside>
+            <div class="metrics">
+              <div class="metric">
+                <div class="metric-value accent">20%</div>
+                <div class="metric-label">Memory reduction on POS modules via view reuse</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value green">10+</div>
+                <div class="metric-label">Mobile projects delivered across platforms</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">100+</div>
+                <div class="metric-label">Active users supported in production</div>
+              </div>
+              <div class="metric">
+                <div class="metric-value">3</div>
+                <div class="metric-label">Production roles across iOS &amp; Flutter teams</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ APP PREVIEW ═══════════════════ -->
+    <section class="section" id="preview">
+      <div class="container">
+        <p class="label">App UI Preview</p>
+        <h2 class="section-title">Soul — Music Streaming App</h2>
+        <p class="section-sub">A cross-platform Flutter music app with curated discovery, offline playback, and a
+          premium dark UI built for deep listening.</p>
+
+        <div class="preview-layout">
+          <article class="preview-copy">
+            <div class="chip-row">
+              <span class="tag">Flutter</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">GetX</span>
+              <span class="tag">Audio Streaming</span>
+            </div>
+            <h3>Soul Music App</h3>
+
+            <div class="preview-block">
+              <span class="block-label">Problem</span>
+              <p>Listeners needed a smooth, cross-platform streaming experience with curated discovery, offline support,
+                and a UI that felt premium — not generic.</p>
+            </div>
+
+            <div class="preview-block">
+              <span class="block-label">What I Built</span>
+              <p>Full-featured Flutter app with GetX state management, JioSaavn API integration, audio service layer
+                with background playback, and Apple Music–inspired dark UI.</p>
+            </div>
+
+            <div class="preview-block">
+              <span class="block-label">Key Features</span>
+              <ul class="preview-list">
+                <li>Home feed with Quickpicks, charts &amp; new releases</li>
+                <li>Full-screen player with lyrics &amp; Up Next queue</li>
+                <li>Offline downloads with background sync</li>
+                <li>QR-based playlist sharing</li>
+                <li>Now Playing mini-player with gesture dismiss</li>
+              </ul>
+            </div>
+
+            <div class="preview-block">
+              <span class="block-label">Impact</span>
+              <p style="color:var(--accent-2);font-weight:600;">Shipped to production · 100+ active users · Stable
+                cross-platform release</p>
+            </div>
+          </article>
+
+          <div>
+            <div class="phone-wrap" aria-label="Soul music app iPhone preview">
+              <div class="iphone" role="img" aria-label="iPhone 15 Pro mockup showing Soul app screenshots">
+                <div class="screen" id="appScreen">
+                  <div class="screen-slide active"><img src="soul1.png" alt="Soul app – Home feed" loading="lazy" />
+                  </div>
+                  <div class="screen-slide"><img src="soul2.png" alt="Soul app – Now Playing" loading="lazy" /></div>
+                  <div class="screen-slide"><img src="soul3.png" alt="Soul app – Search &amp; Discovery"
+                      loading="lazy" /></div>
+                  <div class="screen-slide"><img src="soul4.png" alt="Soul app – Library" loading="lazy" /></div>
+                  <div class="screen-slide"><img src="soul5.png" alt="Soul app – Up Next queue" loading="lazy" /></div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-controls" aria-label="Slideshow controls">
+              <button class="slide-arrow" id="slidePrev" aria-label="Previous screen">&#8592;</button>
+              <div class="slide-dots" id="slideDots" aria-hidden="true">
+                <span class="active"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <button class="slide-arrow" id="slideNext" aria-label="Next screen">&#8594;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ PROJECTS ═══════════════════ -->
+    <section class="section" id="projects">
+      <div class="container">
+        <p class="label">Selected Projects</p>
+        <h2 class="section-title">What I've Shipped</h2>
+        <p class="section-sub">Each project is structured around user needs, implementation decisions, and measurable
+          outcomes.</p>
+
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Soul Music App</h3>
+              <span class="project-arrow">↗</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Problem</span>
+              <span class="project-row-text">Needed a smooth cross-platform streaming experience with curated music
+                discovery and offline support.</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Solution</span>
+              <span class="project-row-text">Built Flutter app with GetX state management, optimized audio streaming,
+                and a premium dark UI.</span>
+            </div>
+            <div class="project-row" style="margin-bottom:1rem;">
+              <span class="project-row-label">Impact</span>
+              <span class="project-impact">Stable production release · 100+ active users</span>
+            </div>
+            <div class="tech-tags">
+              <span>Flutter</span><span>GetX</span><span>Firebase</span><span>Audio Streaming</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3>QR Menu App</h3>
+              <span class="project-arrow">↗</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Problem</span>
+              <span class="project-row-text">Restaurants required low-friction contactless ordering with real-time menu
+                updates.</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Solution</span>
+              <span class="project-row-text">QR-powered digital menu with Firebase real-time sync and a clean
+                table-facing UI.</span>
+            </div>
+            <div class="project-row" style="margin-bottom:1rem;">
+              <span class="project-row-label">Impact</span>
+              <span class="project-impact">Reduced ordering friction · Improved menu agility</span>
+            </div>
+            <div class="tech-tags">
+              <span>Flutter</span><span>QR Integration</span><span>Firebase</span><span>Real-time DB</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Silver Jewelry E-commerce</h3>
+              <span class="project-arrow">↗</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Problem</span>
+              <span class="project-row-text">Brand needed a polished mobile shopping flow with secure payment
+                checkout.</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Solution</span>
+              <span class="project-row-text">Implemented product catalog UX and integrated payment gateway with smooth
+                order flow.</span>
+            </div>
+            <div class="project-row" style="margin-bottom:1rem;">
+              <span class="project-row-label">Impact</span>
+              <span class="project-impact">End-to-end mobile purchase journey shipped</span>
+            </div>
+            <div class="tech-tags">
+              <span>Flutter</span><span>Payment Gateway</span><span>E-commerce</span><span>Catalog UX</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Real Estate CRM</h3>
+              <span class="project-arrow">↗</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Problem</span>
+              <span class="project-row-text">Teams lacked unified lead tracking, communication workflows, and pipeline
+                visibility.</span>
+            </div>
+            <div class="project-row">
+              <span class="project-row-label">Solution</span>
+              <span class="project-row-text">Built CRM mobile solution with lead lifecycle management, analytics views,
+                and follow-up reminders.</span>
+            </div>
+            <div class="project-row" style="margin-bottom:1rem;">
+              <span class="project-row-label">Impact</span>
+              <span class="project-impact">Improved pipeline visibility · Consistent agent follow-up</span>
+            </div>
+            <div class="tech-tags">
+              <span>Flutter</span><span>CRM</span><span>Analytics</span><span>REST APIs</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ EXPERIENCE ═══════════════════ -->
+    <section class="section" id="experience">
+      <div class="container">
+        <p class="label">Experience</p>
+        <h2 class="section-title">Career Timeline</h2>
+        <p class="section-sub">Focused on shipping production systems with measurable reliability and performance
+          improvements.</p>
+
+        <div class="timeline">
+
+          <article class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-meta">
+              <span class="timeline-date">Jun 2025 — Present</span>
+              <span class="timeline-badge">Current</span>
+            </div>
+            <h3 class="timeline-role">iOS Developer</h3>
+            <p class="timeline-company">Alberta Payments &amp; Technology</p>
+            <p class="timeline-desc">
+              Building FinTech and POS iOS modules for billing, payments, and inventory management. Delivered ~20%
+              memory reduction via view reuse and rendering optimization. Collaborating with QA and design in Agile
+              delivery cycles.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot dim"></div>
+            <div class="timeline-meta">
+              <span class="timeline-date">Nov 2024 — May 2025</span>
+            </div>
+            <h3 class="timeline-role">iOS Developer</h3>
+            <p class="timeline-company">Uffizio</p>
+            <p class="timeline-desc">
+              Developed and optimized iOS applications with real-time tracking and advanced business logic for
+              enterprise client workflows. Improved app stability across diverse device profiles.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot dim"></div>
+            <div class="timeline-meta">
+              <span class="timeline-date">Jan 2023 — Oct 2024</span>
+            </div>
+            <h3 class="timeline-role">iOS Developer</h3>
+            <p class="timeline-company">Prismetric Technologies</p>
+            <p class="timeline-desc">
+              Shipped Flutter and iOS apps with Firebase, REST APIs, and App Store deployment while supporting agile
+              delivery across multiple client projects. Contributed to code reviews and design system consistency.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ SKILLS ═══════════════════ -->
+    <section class="section" id="skills">
+      <div class="container">
+        <p class="label">Technical Skills</p>
+        <h2 class="section-title">Core Capabilities</h2>
+        <p class="section-sub">Clean grouped capabilities — no noise-heavy ratings, just what I actually ship with.</p>
+
+        <div class="skills-grid">
+          <article class="skill-group">
+            <p class="skill-group-title">Mobile</p>
+            <div class="skill-tags">
+              <span>Swift</span><span>Flutter</span><span>Dart</span><span>Kotlin</span><span>iOS
+                SDK</span><span>UIKit</span><span>SwiftUI</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <p class="skill-group-title">Backend &amp; Data</p>
+            <div class="skill-tags">
+              <span>Firebase</span><span>REST APIs</span><span>GraphQL</span><span>Node.js</span><span>MongoDB</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <p class="skill-group-title">Architecture</p>
+            <div class="skill-tags">
+              <span>Modular Design</span><span>State Management</span><span>MVVM</span><span>Clean
+                Architecture</span><span>Offline-first</span>
+            </div>
+          </article>
+
+          <article class="skill-group">
+            <p class="skill-group-title">Tools &amp; Workflow</p>
+            <div class="skill-tags">
+              <span>Git</span><span>Xcode</span><span>Android
+                Studio</span><span>Figma</span><span>CI/CD</span><span>Agile / Scrum</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ CONTACT ═══════════════════ -->
+    <section class="section" id="contact">
+      <div class="container">
+        <p class="label">Get in Touch</p>
+        <h2 class="section-title">Let's Work Together</h2>
+        <p class="section-sub">Let's discuss product goals, platform strategy, or a specific mobile delivery challenge.
+        </p>
+
+        <div class="contact-wrap">
+          <aside class="contact-info">
+            <h3>Open to conversation</h3>
+            <p>Whether you're scaling a FinTech product, building merchant tooling, or improving an existing mobile
+              codebase — I'd love to hear about the challenge.</p>
+            <div class="contact-links">
+              <a class="contact-link" href="mailto:snick0128@gmail.com">
+                <span class="contact-link-icon">✉</span>
+                snick0128@gmail.com
+              </a>
+              <a class="contact-link" href="tel:+916375477065">
+                <span class="contact-link-icon">☎</span>
+                +91 63754 77065
+              </a>
+              <span class="contact-link">
+                <span class="contact-link-icon">📍</span>
+                Ahmedabad, Gujarat, India
+              </span>
+            </div>
+          </aside>
+
+          <div class="contact-form-wrap">
+            <form class="form-grid" id="contactForm" novalidate>
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email"
+                  required />
+              </div>
+              <div class="field field-full">
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" type="text" placeholder="What's the opportunity?" required />
+              </div>
+              <div class="field field-full">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell me about the project or role..."
+                  required></textarea>
+              </div>
+              <div class="field field-full form-btn-row">
+                <button class="btn btn-primary" type="submit" id="sendBtn">Send Message</button>
+                <p class="form-status" id="formStatus" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <p>© 2026 Vishal Sharma — iOS &amp; Flutter Engineer</p>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#home">Top</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Slideshow ── */
+    (function () {
+      const slides = document.querySelectorAll('.screen-slide');
+      const dots = document.querySelectorAll('#slideDots span');
+      const prevBtn = document.getElementById('slidePrev');
+      const nextBtn = document.getElementById('slideNext');
+      let idx = 0;
+      let timer;
+
+      function go(next) {
+        slides[idx].classList.remove('active');
+        dots[idx].classList.remove('active');
+        idx = (next + slides.length) % slides.length;
+        slides[idx].classList.add('active');
+        dots[idx].classList.add('active');
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        if (slides.length > 1) {
+          timer = setInterval(() => go(idx + 1), 3800);
+        }
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => { go(idx - 1); startTimer(); });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => { go(idx + 1); startTimer(); });
+      }
+
+      startTimer();
+    })();
+
+    /* ── Active nav (scroll spy) ── */
+    (function () {
+      const sections = document.querySelectorAll('header[id], section[id]');
+      const navLinks = document.querySelectorAll('#navLinks a[href^="#"]');
+
+      function setActive(id) {
+        navLinks.forEach(a => {
+          const matches = a.getAttribute('href') === '#' + id;
+          a.classList.toggle('nav-active', matches);
+        });
+      }
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) setActive(entry.target.id);
+          });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach(s => observer.observe(s));
+    })();
+
+    /* ── Mobile nav ── */
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const links = document.getElementById('navLinks');
+
+      btn.addEventListener('click', () => {
+        const open = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('open');
+          btn.setAttribute('aria-expanded', false);
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+
+    /* ── Contact form ── */
+    (function () {
+      const form = document.getElementById('contactForm');
+      const btn = document.getElementById('sendBtn');
+      const status = document.getElementById('formStatus');
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+        status.textContent = '';
+
+        setTimeout(() => {
+          form.reset();
+          btn.textContent = 'Send Message';
+          btn.disabled = false;
+          status.textContent = "✓ Message sent — I'll be in touch soon.";
+          setTimeout(() => { status.textContent = ''; }, 4000);
+        }, 1400);
+      });
+    })();
+  </script>
+</body>
+
+</html>
