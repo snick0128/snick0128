@@ -251,6 +251,24 @@
     }
 
     /* Hamburger (mobile) */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger (mobile) */
     .nav-menu-btn {
       display: none;
       flex-direction: column;
@@ -259,29 +277,29 @@
       border: none;
       cursor: pointer;
       padding: 6px;
+      z-index: 101;
     }
 
     .nav-menu-btn span {
       display: block;
-      width: 22px;
+      width: 20px;
       height: 2px;
       background: var(--text);
       border-radius: 2px;
-      transition: transform 0.22s, opacity 0.22s;
+      transition: transform 0.22s var(--ease), opacity 0.15s;
     }
 
-    .nav-links.open {
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      inset: var(--nav-h) 0 0 0;
-      background: rgba(9, 9, 11, 0.97);
-      backdrop-filter: blur(20px);
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-      font-size: 1.2rem;
-      z-index: 99;
+    /* Button "X" animation when expanded */
+    .nav-menu-btn[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-menu-btn[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-menu-btn[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
     }
 
     /* ─── HERO ───────────────────────────────────────────────────────── */
@@ -1155,16 +1173,95 @@
     }
 
     @media (max-width: 620px) {
-      .nav-links {
-        display: none;
+      nav {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(9, 9, 11, 0.98);
       }
 
       .nav-menu-btn {
         display: flex;
       }
 
-      .nav-links.open {
+      .nav-links {
         display: flex;
+        flex-direction: column;
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: min(300px, 80%);
+        background: rgba(9, 9, 11, 0.98);
+        border-left: 1px solid var(--border);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        padding: 6rem 2rem 2rem;
+        gap: 1.8rem;
+        z-index: 99;
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        align-items: flex-start;
+        justify-content: flex-start;
+        font-size: 1.1rem;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .nav-links.open {
+        transform: translateX(0);
+      }
+
+      .nav-links li {
+        width: 100%;
+        list-style: none;
+        transform: translateX(30px);
+        opacity: 0;
+        transition: transform 0.4s var(--ease), opacity 0.4s;
+      }
+
+      .nav-links.open li {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .nav-links.open li:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+
+      .nav-links.open li:nth-child(2) {
+        transition-delay: 0.15s;
+      }
+
+      .nav-links.open li:nth-child(3) {
+        transition-delay: 0.2s;
+      }
+
+      .nav-links.open li:nth-child(4) {
+        transition-delay: 0.25s;
+      }
+
+      .nav-links.open li:nth-child(5) {
+        transition-delay: 0.3s;
+      }
+
+      .nav-links.open li:nth-child(6) {
+        transition-delay: 0.35s;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 0.5rem 0;
+        width: 100%;
+      }
+
+      .nav-cta {
+        margin-left: 0;
+        display: inline-block;
+        padding: 0.8rem 1.5rem !important;
+        background: var(--surface-2) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-md) !important;
+        text-align: center;
+        width: 100% !important;
       }
 
       .hero-actions .btn {
@@ -1211,6 +1308,8 @@
       </button>
     </div>
   </nav>
+
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <!-- ═══════════════════ HERO ═══════════════════ -->
   <header class="hero" id="home">
@@ -1700,19 +1799,20 @@
     (function () {
       const btn = document.getElementById('menuBtn');
       const links = document.getElementById('navLinks');
+      const overlay = document.getElementById('navOverlay');
 
-      btn.addEventListener('click', () => {
-        const open = links.classList.toggle('open');
+      function toggleMenu(force) {
+        const open = typeof force === 'boolean' ? force : links.classList.toggle('open');
         btn.setAttribute('aria-expanded', open);
+        overlay.classList.toggle('open', open);
         document.body.style.overflow = open ? 'hidden' : '';
-      });
+      }
+
+      btn.addEventListener('click', () => toggleMenu());
+      overlay.addEventListener('click', () => toggleMenu(false));
 
       links.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          links.classList.remove('open');
-          btn.setAttribute('aria-expanded', false);
-          document.body.style.overflow = '';
-        });
+        a.addEventListener('click', () => toggleMenu(false));
       });
     })();
 
